@@ -1,5 +1,7 @@
 -- 0921副問い合わせについてうろ覚えで演習問題手が止まってしまったので復習
 -- 0927追記
+-- 0929追記
+-- 0930追記
 /*
 ◆サブクエリの置ける場所について
 サブクエリの置ける場所は、「値（単数、複数リスト）」か「テーブル」が来ると文法的に期待されている場所
@@ -383,7 +385,41 @@ where sum() <
     from syouhi4 where shouhin4.sno = (select meisai4.sno from meisai4 where meisai4.hno = (
     select hanabi4.hno from hanbai4 where hanbai4.tno = tokuisaki.tno))
     
-
+-- 0930ここから
+/*
+テーブルHANBAI4……HNO販売番号,DAY売上日,TNO得意先番号
+テーブルMEISAI4……MNO明細番号,HNO販売番号,SNO商品番号,SU売上数量
+テーブルSYOUHIN4……SNO商品番号,NAME商品名,TANKA単価
+テーブルTOKUISAKI4……TNO得意先番号,NAME得意先名,ADR住所
+*/
+--⑴A菓子の販売実績(結合は不使用)。商品名、得意先名、販売日付、売上数を表示
+/*
+考え。まず結果セットに欲しいデータを考える。
+商品名……syouhin4.name、得意先名……tokuisaki4.name、販売日付……hanbai4.day、売上数……meisai4.su
+→すべて別のテーブルから取得する必要がある。from句に内部結合で置くことは禁止されている。
+→どれかのテーブルを主役にして、他のテーブルをサブに。→一番データが詳細なmeisai4を主役にする。
+→なぜなら明細1つごとに、販売記録1つ、商品ごとの売上数記録。主キーに対して従属するデータ種類と数が多い。
+それを踏まえると骨格は、select m4.su as 売上数 from meisai4 m4 where m4.sno = h4.sno;これに継ぎ足していく。
+*/
+select 
+    (select name from syouhin4 s4 where sno = m4.sno)as 商品名,
+    (select name from tokuisaki4 t4 where tno = (select tno from hanbai4 where hno = m4.hno))as 得意先名,
+    (select day from hanbai4  h4 where hno = m4.hno)as 販売日付,
+    su as 売上数
+from meisai4 m4 
+where (select name from syouhin4 where sno = m4.sno) = 'A菓子'
+;
+/*
+where句のルール
+where [式１][比較演算子][式２]：[式1][式2]には列名、固定値、計算式、様々なものを置ける。
+例1（一般的な使い方）：where [列名] 比較演算子[値orサブクエリ]
+                    where price     >     100
+                    where tanka     >     (select AVG(tanka)from syouhin4)
+例2（応用的な使い方）：where [ｻﾌﾞｸｴﾘ1] 比較演算子 [ｻﾌﾞｸｴﾘ2]※どちらも1行1列の単一の値を返す場合のみ。両側が1対1の関係
+                    where (select min(tanka)from syouhin4 where name = 'A菓子')
+                    > (select max(tanka)from syouhin4 where name = 'C菓子')
+*/
+--⑵
 
 
 
