@@ -189,6 +189,29 @@ where sum() <
     select hanabi4.hno from hanbai4 where hanbai4.tno = tokuisaki.tno) = syouhin4.sno) 
     from syouhi4 where shouhin4.sno = (select meisai4.sno from meisai4 where meisai4.hno = (
     select hanabi4.hno from hanbai4 where hanbai4.tno = tokuisaki.tno))
+→✖
+SELECT
+    s4.name, -- SELECT句がとてもシンプルになる
+    t4.name,
+    h4.day,
+    m4.su
+FROM
+    meisai4 m4, -- 使うテーブルを全て並べる
+    hanbai4 h4,
+    syouhin4 s4,
+    tokuisaki4 t4
+WHERE
+    -- ここでテーブル間の「相関関係」を全て記述する
+    m4.hno = h4.hno
+AND m4.sno = s4.sno
+AND h4.tno = t4.tno
+-- そして、絞り込み条件もここに書く
+AND s4.name = 'A菓子';
+これでも良いらしい。サブクエリがうまく整理できていいない。
+
+se
+
+
     
 -- 0930ここから
 /*
