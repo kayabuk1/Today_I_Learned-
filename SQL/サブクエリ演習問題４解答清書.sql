@@ -13,7 +13,7 @@ select
   su from meisai4 m4 
 where (select name from syouhin4 s4 where s4.sno = m4.sno) = 'A菓子'
 ; 
---別解
+--別解(暗黙的にINNER JOINと同じに扱われる)
 SELECT 
     s4.name, -- SELECT句がとてもシンプルになる
     t4.name,
