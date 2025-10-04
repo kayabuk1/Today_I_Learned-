@@ -22,16 +22,34 @@ where (select name from syouhin4 s4 where s4.sno = m4.sno) = 'A菓子'
 テーブルTOKUISAKI4……TNO得意先番号,NAME得意先名,ADR住所
 select
   (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno))as 得意先名,
-  select hno as 販売番号,
+  hno as 販売番号,
   (select day as 売上日 from hanbai4 h4 where h4.hno = m4.hno),
-  (select name as 商品名,tanka as 単価 from syouhin4 s4 where s4.sno = m4.sno),
+  (select name from syouhin4 s4 where s4.sno = m4.sno)as 商品名,
+  (select tanka from syouhin4 s4 where s4.sno = m4.sno)as 単価,
   sum(su * s4.tanka)as 売上額
 from meisai4 m4
-where (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno ) = '船橋商会'
-AND (select day from hanbai4 h4 where h4.hno = m4.hno) = (select max(day) from hanbai4 h4 where h4.hno = m4.hno)
+where
+  (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno )) 
+  = '船橋商会'
+AND (select day from hanbai4 h4 where h4.hno = m4.hno) = (select max(day) from hanbai4 h4 where h4.hno 
+  = m4.hno)
 order by m4.hno and s4.sno ASC; 
 
+サブクエリ内のASの位置
+SELECT句の中でサブクエリを使う場合、別名（AS）はサブクエリの括弧の外に置く必要があります。
 
+誤: (select day as 売上日 from ...)
+
+正: (select day from ...) as "売上日"
+
+サブクエリが複数の列を返している（最重要エラー）
+SELECT句で列として使うサブクエリ（スカラーサブクエリ）は、必ず1行1列の結果しか返せません。
+
+誤: (select name as 商品名, tanka as 単価 from ...)
+このサブクエリはnameとtankaの2列を返そうとしているため、エラーになります。「商品名」と「単価」は、それぞれ別のサブクエリで取得する必要があります。
+
+SUM()とGROUP BYの欠如
+sum(su * s4.tanka)のように集計関数を使う場合、SELECT句に他の列（得意先名など）があると、通常はGROUP BY句が必要です。しかし、今回のサブクエリだらけの構成では、SUMの計算方法そのものが複雑になり、この形では実現できません。
 
 
 
