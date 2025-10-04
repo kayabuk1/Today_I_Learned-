@@ -33,7 +33,7 @@ where
   = '船橋商会'
 AND (select day from hanbai4 h4 where h4.hno = m4.hno)
   = (select max(day) from hanbai4 h4 where h4.tno IN
-       (select tno from tokuisaki4 where name = '船橋商会')
+       (select tno from tokuisaki4 where name = '船橋商会'))
 order by 販売番号, m4.sno ASC; 
 
 サブクエリ内のASの位置
