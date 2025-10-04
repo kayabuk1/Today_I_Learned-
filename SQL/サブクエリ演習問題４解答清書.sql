@@ -86,7 +86,7 @@ where (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno)) > ANY
             )
           )
         )
-  ;
+;
 
 
 
