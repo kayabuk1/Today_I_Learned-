@@ -73,7 +73,7 @@ select
   s4.sno as 商品番号, s4.name as 商品名, 
   (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno))as 売上合計数
 from syouhin4 s4 
-where (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno)) > ANY
+where (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno) > ANY
        (select sum(m4.su) from meisai4 m4 where m4.sno = 
           (select s4.sno from syouhin4 s4 where 
             (s4.sno = 
