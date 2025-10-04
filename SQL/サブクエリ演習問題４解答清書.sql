@@ -22,7 +22,9 @@ where (select name from syouhin4 s4 where s4.sno = m4.sno) = 'A菓子'
 テーブルTOKUISAKI4……TNO得意先番号,NAME得意先名,ADR住所
 select
   (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno))as 得意先名,
-  
+  select hno as 販売番号,
+  (select day as 売上日 from hanbai4 h4 where h4.hno = m4.hno),
+  (select name as 商品名,tanka as 単価 from syouhin4 s4 where s4.sno = m4.sno),
 from meisai4 m4
 where (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno ) = '船橋商会'
 order by m4.hno and s4.sno ASC; 
