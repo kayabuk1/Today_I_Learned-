@@ -25,6 +25,7 @@ select
   select hno as 販売番号,
   (select day as 売上日 from hanbai4 h4 where h4.hno = m4.hno),
   (select name as 商品名,tanka as 単価 from syouhin4 s4 where s4.sno = m4.sno),
+  sum(su * s4.tanka)as 売上額
 from meisai4 m4
 where (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno ) = '船橋商会'
 order by m4.hno and s4.sno ASC; 
