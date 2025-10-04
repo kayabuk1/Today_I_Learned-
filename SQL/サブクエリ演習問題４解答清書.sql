@@ -28,6 +28,7 @@ select
   sum(su * s4.tanka)as 売上額
 from meisai4 m4
 where (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno ) = '船橋商会'
+AND (select day from hanbai4 h4 where h4.hno = m4.hno) = (select max(day) from hanbai4 h4 where h4.hno = m4.hno)
 order by m4.hno and s4.sno ASC; 
 
 
