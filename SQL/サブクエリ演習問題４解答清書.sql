@@ -86,6 +86,20 @@ where (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno) > ANY
             )
           )
         )
+;⇒間違い✖
+--正解例
+SELECT s4.name as 商品名,
+      (select sum(m4.su)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(selct t4.tno from tokuisaki4 t4 where t4.name ='千葉商会')))as 千葉商会売上合計数
+FROM  syouhin4 s4
+WHERE (select sum(m4.su)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(selct t4.tno from tokuisaki4 t4 where t4.name ='千葉商会')))
+      ) > (select sum(m4.su)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(selct t4.tno from tokuisaki4 t4 where t4.name ='習志野商会')))
+AND  (select sum(m4.su)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(selct t4.tno from tokuisaki4 t4 where t4.name ='千葉商会')))
+      ) > (select sum(m4.su)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(selct t4.tno from tokuisaki4 t4 where t4.name ='鎌ヶ谷商会')))
 ;
 
 
