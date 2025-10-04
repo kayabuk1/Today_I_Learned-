@@ -54,15 +54,17 @@ where 順位 <= 3
 -- ⑸売上合計額が船橋商会よりも低く、鎌ヶ谷商会よりも高い得意先売上情報を表示　得意先番号、得意先、売上合計金額を表示
 select t4.tno as 得意先番号, t4.name as　得意先名, 
   (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
-    where m4)
+    where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno = t4.tno))as 売上合計金額
 from tokuisaki4 t4
-where m4.hno IN(select h4.hno from hanbai4 h4 where h4.tno = t4.tno)
-AND 売上合計金額 < 
-  (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4) 
-    where (select t4.name from tokuisaki4 t4 where t4.tno =m4.tno) = '船橋商会')
-AND 売上合計金額 > 
-  (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4
-    where (select t4.name from tokuisaki4 t4 where (select h4.tno from hanbai4 h4 where h4.tno = t4.tno ) = '鎌ヶ谷商会')
+where
+    (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+    where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno = t4.tno))
+  < (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+      where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno =(select tno from tokuisaki4 where name = '船橋商会')))
+AND (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+      where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno = t4.tno))
+  >(select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+      where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno =(select tno from tokuisaki4 where name = '鎌ヶ谷商会')))
 ;
 
 --⑹千葉商会
