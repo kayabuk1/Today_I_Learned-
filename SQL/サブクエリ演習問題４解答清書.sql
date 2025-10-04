@@ -26,14 +26,16 @@ select
   (select day as 売上日 from hanbai4 h4 where h4.hno = m4.hno),
   (select name from syouhin4 s4 where s4.sno = m4.sno)as 商品名,
   (select tanka from syouhin4 s4 where s4.sno = m4.sno)as 単価,
-  sum(su * s4.tanka)as 売上額
+  m4.su * (select tanka from syouhin4 s4 where s4.sno = m4.sno)as 売上額
 from meisai4 m4
 where
   (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno )) 
   = '船橋商会'
-AND (select day from hanbai4 h4 where h4.hno = m4.hno) = (select max(day) from hanbai4 h4 where h4.hno 
-  = m4.hno)
-order by m4.hno and s4.sno ASC; 
+AND (select day from hanbai4 h4 where h4.hno = m4.hno)
+  = (select max(day) from hanbai4 h4 where h4.hno = m4.hno 
+      and (select name from tokuisaki4 t4 where t4.tno 
+            = (select tno from hanbai4 h4 where h4.hno = m4.hno)) = '船橋商会' )
+order by 販売番号, m4.sno ASC; 
 
 サブクエリ内のASの位置
 SELECT句の中でサブクエリを使う場合、別名（AS）はサブクエリの括弧の外に置く必要があります。
