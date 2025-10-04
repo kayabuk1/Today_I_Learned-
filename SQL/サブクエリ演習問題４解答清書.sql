@@ -69,7 +69,7 @@ AND (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))
 
 --⑹千葉商会への売上について、商品ごとの売り上げ合計数が習志野・鎌ヶ谷商会の売上合計数を超えた商品
 select 
-  (select t4.name from tokuisaki4 t4 where t4.tno = (select h4.tno from hanbai4 h4 where h4.hno = (select m4.hno from meisai4 m4 where m4.sno = s4.sno)))as 得意先名,
+  (select t4.name from tokuisaki4 t4 where t4.tno = (select h4.tno from hanbai4 h4 where h4.hno = (select m4.hno from meisai4 m4 where m4.sno = s4.sno))as 得意先名,
   s4.sno as 商品番号, s4.name as 商品名, 
   (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno))as 売上合計数
 from syouhin4 s4 
@@ -79,7 +79,7 @@ where (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno)) > ANY
             (s4.sno = 
               (select m4.sno from meisai4 m4 where m4.hno = 
                 (select h4.hno from hanbai4 where h4.tno = 
-                  (select t4.tno from tokuisaki4 t4 where t4.name = '習志野商会' OR '鎌ヶ谷商会' 
+                  (select t4.tno from tokuisaki4 t4 where t4.name IN ('習志野商会','鎌ヶ谷商会')
                   )
                 )
               )
