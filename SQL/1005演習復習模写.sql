@@ -94,18 +94,22 @@ group byが使えるのは、from句ですべての材料(テーブル)が並べ
 
 --⑹千葉商会への売上について、商品ごとの売り上げ合計数が習志野・鎌ヶ谷商会の売上合計数を超えた商品
 select s4.name as　商品名,
-      (select coalesce(sum(m4.su,0))from meisai4 m4 
+      (select coalesce(sum(m4.su),0)from meisai4 m4 
        where m4.sno = s4.sno
        AND m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno 
                         =(select t4.tno from tokuisaki4 t4 where t4.name = '千葉商会')))as 千葉商会売上数合計
 from syouhin4 s4
-where 千葉商会売上数合計
+where (select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='千葉商会')))
        > (select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
         (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='習志野商会')))
-AND    千葉商会売上数合計
+AND    (select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='千葉商会')))
 　     >(select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
         (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='鎌ヶ谷商会')))
-;
+;//SELECT句で名付けたエイリアスはFROM句で名付けたエイリアスと違って最後に処理されるので、
+//WHERE句で千葉商会売上数合計の様なエイリアスを使うことは出来ない。
+//つまり同じサブクエリを繰り返えすしかない。
 
 
 
