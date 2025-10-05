@@ -103,6 +103,19 @@ AND (select day from hanbai4 where hno = meisai4.hno) =
         (select MAX(day) from hanbai4 h4 INNER JOIN tokuisaki4 t4 on h4.tno = t4.tno where t4.name ='船橋商店')
 order  by meisai4.hno,meisai4.sno asc;
 where句の最新の日付という条件が書けなかった。
+    /*
+サブクエリ内のASの位置
+SELECT句の中でサブクエリを使う場合、別名（AS）はサブクエリの括弧の外に置く必要があります。
+誤: (select day as 売上日 from ...)
+正: (select day from ...) as "売上日"
+サブクエリが複数の列を返している（最重要エラー）
+SELECT句で列として使うサブクエリ（スカラーサブクエリ）は、必ず1行1列の結果しか返せません。
+誤: (select name as 商品名, tanka as 単価 from ...)
+このサブクエリはnameとtankaの2列を返そうとしているため、エラーになります。「商品名」と「単価」は、
+それぞれ別のサブクエリで取得する必要があります。
+SUM()とGROUP BYの欠如
+sum(su * s4.tanka)のように集計関数を使う場合、SELECT句に他の列（得意先名など）があると、通常はGROUP BY句が必要です。しかし、今回のサブクエリだらけの構成では、SUMの計算方法そのものが複雑になり、この形では実現できません。
+*/
 
 -- ⑶１回も売れていない商品名
 -- 自力チャレンジ
@@ -209,10 +222,6 @@ AND h4.tno = t4.tno
 AND s4.name = 'A菓子';
 これでも良いらしい。サブクエリがうまく整理できていいない。
 
-se
-
-
-    
 -- 0930ここから
 /*
 テーブルHANBAI4……HNO販売番号,DAY売上日,TNO得意先番号
@@ -247,59 +256,74 @@ where [式１][比較演算子][式２]：[式1][式2]には列名、固定値�
                     where (select min(tanka)from syouhin4 where name = 'A菓子')
                     > (select max(tanka)from syouhin4 where name = 'C菓子')
 */
---⑵
+--⑹千葉商会への売上について、商品ごとの売り上げ合計数が習志野・鎌ヶ谷商会の売上合計数を超えた商品
+select 
+  (select t4.name from tokuisaki4 t4 where t4.tno = (select h4.tno from hanbai4 h4 where h4.hno = (select m4.hno from meisai4 m4 where m4.sno = s4.sno))as 得意先名,
+  s4.sno as 商品番号, s4.name as 商品名, 
+  (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno))as 売上合計数
+from syouhin4 s4 
+where (select sum(m4.su) from meisai4 m4 where m4.sno = s4.sno) > ANY
+       (select sum(m4.su) from meisai4 m4 where m4.sno = 
+          (select s4.sno from syouhin4 s4 where 
+            (s4.sno = 
+              (select m4.sno from meisai4 m4 where m4.hno = 
+                (select h4.hno from hanbai4 where h4.tno = 
+                  (select t4.tno from tokuisaki4 t4 where t4.name IN ('習志野商会','鎌ヶ谷商会')
+                  )
+                )
+              )
+            )
+          )
+        )
+;⇒間違い✖
+--正解例
+SELECT s4.name as 商品名,
+      (select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='千葉商会')))as 千葉商会売上合計数
+FROM  syouhin4 s4
+WHERE (select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='千葉商会')))
+       > (select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='習志野商会')))
+AND  (select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='千葉商会')))
+       > (select coalesce(sum(m4.su),0)from meisai4 m4 where m4.sno =s4.sno AND m4.hno IN
+        (select h4.hno from hanbai4 h4 where h4.tno =(select t4.tno from tokuisaki4 t4 where t4.name ='鎌ヶ谷商会')))
+;
+/*なぜFROM句では相関サブクエリが使うことが出来ないのか(非相関サブクエリは可)
+FROｍ句は一番最初に実行される。それなのにfrom句の中で相関サブクエリを使うと、まだ用意されていないt4.tnoの各行を参照させろという
+矛盾した命令になってしまう。なのでRDBMSはtokuisaki4テーブルの各行の準備は出来ていないので、t4.tnoは使えないとエラーを返す。
+*/
+--INNER JOINを使った別解
+select s4.name as 商品名, sum(m4.su)as 売上数合計
+from syouhin4 s4 INNER JOIN meisai4 m4 on s4.sno = m4.sno
+                 INNER JOIN hanbai4 h4 on m4.hno =h4.hno
+                 INNER JOIN tokuisaki4 t4 on h4.tno = t4.tno
+where t4.name = '千葉商会'
+group by s4.name
+having sum(m4.su) > (select sum(m4.su)from meisai4 m4 
+                      INNER JOIN hanbai4 h4 on m4.hno =h4.hno　INNER JOIN tokuisaki4 t4 on h4.tno = t4.tno　
+                    　where t4.name = '習志野商会' AND m4.sno = s4.sno)//メインクエリのs4.snoと関連付けて、１行１行商品名ごとに実行させて、商品ごとの比較をするという目的を達成する
+AND sum(m4.sum) >  (select sum(m4.su)from meisai4 m4 
+                      INNER JOIN hanbai4 h4 on m4.hno =h4.hno　INNER JOIN tokuisaki4 t4 on h4.tno = t4.tno　
+                    　where t4.name = '鎌ヶ谷商会' AND m4.sno = s4.sno)
+;
+/*SQLの「論理的な」実行順番について
+１．「FROM」データを取ってくるテーブルを決定(結合する時はJOINも同時に？実行)
+２．「WHERE」(行(欲しいデータ)を絞り込む)
+３．「GROUP BY」グループ化
+４．「HAVING」グループ化したリストを対象に絞り込む
+５．「SELECT」表示する列を決定(データのどの部分のデータが欲しいか)
+６．「ORDER BY」取り出した結果セットをもとに並べ替え
+※０．「非相関サブクエリ」(自己完結しているサブクエリ)FROM句よりも更に前、最初に「１回だけ」実行される。
+※Ｘ．「相関サブクエリ」メインクエリの処理の「途中で、必要なタイミングで何度も」呼び出され実行される。
+        　　　　　　　　今回のhaving句のサブクエリはGROUP BYでグループが作られた後、各グループに対して１回ずつ実行される。
+                      (外側からの情報がないと完成しない、不完全な問いになっている)
+                    　「あなた(s4.sno)の習志野商会での売上合計はいくつですか？」とgroup byでまとめられた商品ごとにに聞いて値を返す。
+　　　　　　　　　　　　AND m4.sno = s4.snoが無ければ、習志野商会の売上の商品名リストを返すはずが、この1文があることで、サブクエリは
+                    　メインクエリのsyouhin4テーブルのs4.sno情報が無ければ実行できなくなっている。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 
