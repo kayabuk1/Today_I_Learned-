@@ -221,7 +221,22 @@ AND h4.tno = t4.tno
 -- そして、絞り込み条件もここに書く
 AND s4.name = 'A菓子';
 これでも良いらしい。サブクエリがうまく整理できていいない。
-
+‐‐↓解答例
+select t4.tno as 得意先番号, t4.name as　得意先名, 
+  (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+    where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno = t4.tno))as 売上合計金額
+from tokuisaki4 t4
+where
+    (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+    where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno = t4.tno))
+  < (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+      where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno =(select tno from tokuisaki4 where name = '船橋商会')))
+AND (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+      where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno = t4.tno))
+  >(select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
+      where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno =(select tno from tokuisaki4 where name = '鎌ヶ谷商会')))
+;
+    
 -- 0930ここから
 /*
 テーブルHANBAI4……HNO販売番号,DAY売上日,TNO得意先番号
