@@ -226,14 +226,16 @@ int main(void){
 #include<stdio.h>
 #include<stdlib.h>
 int main(void){
+             num[0],  [1], [2], [3], [4]
   char *num[]={"52","-21","38","17","-40"};
+  /*numと言う名前のﾎﾟｲﾝﾀ配列が用意される。各要素には数字の「文字列リテラル」の先頭ｱﾄﾞﾚｽが格納*/
   double d;
-  printf("%d\n",atoi(num[2]));
-  printf("%d\n",abs(atoi(num[1])));
-  printf("%d\n",abs(num[3])-abs(atoi(num[4])));
-  d = atof("-1.374")+0.5;
-  d =d*100.0;
-  printf("%.1f\n",d);
+  printf("%d\n",atoi(num[2]));//atoi()で文字列を数値に変換
+  printf("%d\n",abs(atoi(num[1])));//abs()は整数の絶対値を返す(absolute valueの略)結果は21
+  printf("%d\n",abs(atoi(num[3]))-abs(atoi(num[4])));//17－40＝－23
+  d = atof("-1.374")+0.5;//アスキー文字列数値を注意float型ではなくdouble型に変換する。
+  d =d*100.0;//-0.874*100.0=-87.4
+  printf("%.1f\n",d);//小数点一桁まで表示
   return 0;
 }
 
