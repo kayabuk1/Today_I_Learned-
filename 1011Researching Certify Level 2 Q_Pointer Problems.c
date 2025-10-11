@@ -51,18 +51,22 @@ int main(void)
 #include<stdio.h>
 int main(void)
 {
-  char *flowers[] = {"ROSE","TULIP","PANSY","LILY","COSMOS"};
-  char *p, **pp;
+  char *flowers[] = {"ROSE","TULIP","PANSY","LILY","COSMOS"};  //char型ではなく、char*型配列なのに注意？普通のchar型配列とはどう違う？
+  char *p, **pp;    //char型の変数のｱﾄﾞﾚｽを格納するchar*型のﾎﾟｲﾝﾀpの定義。ﾎﾟｲﾝﾀのﾎﾟｲﾝﾀ型変数つまりchar**型変数ppを定義。
 
-  p = flowers[1];
-  printf("%s\n", p );
-  p += 2;
+  p = flowers[1];    //flowers[1]==&flowers[1]==&"TULIP"なので、TULIPのアドレスを代入。
+  printf("%s\n", p );    //よってTULIPと表示
+  p += 2;                //ﾎﾟｲﾝﾀ自身に2ｱﾄﾞﾚｽ分進める。char*型なので配列の配列とか知ったことなく２バイトだけ進める'T','U','L'よってLIP
   printf("%s\n", p );
 
-  pp = &flowers[2];
-  printf("%s\n", *pp );
-  printf("%s\n", (pp + 1) );
-  printf("%s\n", **pp );
+  pp = &flowers[2];    //ﾎﾟｲﾝﾀのﾎﾟｲﾝﾀ型にTULIPが格納されている箱の場所、つまり配列flowers[2]のアドレスを書き込む
+                     //**pp== *p == 'P'
+                      //*pp==  p == flowers[2]
+                       //pp == &flowers[2],
+                      //&pp= &flowers[2]自体の場所
+  printf("%s\n", *pp );　//間接参照した先は、PANSYのアドレス情報flowers[2]なのでPANSYと表示
+  printf("%s\n", (pp + 1) );  //ppはchar**型なので、&flowers[2+1]と考えて良い。よってLILY
+  printf("%s\n", **pp );    //**ppの先は、printf()ではコピーに計算しただけなので、変数ppの変更はない。よって参照先'P'が%sで表示
   return 0;
 }
 
