@@ -89,7 +89,7 @@ int main(void)
   p++;
   printf("%s\n", p ); //LACK
 
-  pp = color; //==&color[0]==color[0]
+  pp = color; //==&color[0]
   printf("%s\n", *pp + 2 ); // *pp=p=color[0] LLOW
   printf("%s\n", *( pp + 2 )); // BLUE
 
