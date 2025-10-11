@@ -52,9 +52,14 @@ int main(void)
 int main(void)
 {
   char *flowers[] = {"ROSE","TULIP","PANSY","LILY","COSMOS"};  //char型ではなく、char*型配列なのに注意？普通のchar型配列とはどう違う？
+//⇒char minst[][8]はメモリ上に32バイトが一列に並んでいたが、char *flowers[]はﾎﾟｲﾝﾀ配列なので、配列flowers自体にはｱﾄﾞﾚｽ情報しか入っていない
+//"ROSE"や"TULIP"はメモリ上の別の場所に存在する。
+  
   char *p, **pp;    //char型の変数のｱﾄﾞﾚｽを格納するchar*型のﾎﾟｲﾝﾀpの定義。ﾎﾟｲﾝﾀのﾎﾟｲﾝﾀ型変数つまりchar**型変数ppを定義。
 
   p = flowers[1];    //flowers[1]==&flowers[1]==&"TULIP"なので、TULIPのアドレスを代入。
+                    //間違い。&flowers[1]はアドレスのアドレス情報つまり、ﾎﾟｲﾝﾀのﾎﾟｲﾝﾀ型で型が違うので＝＝ではない。あと文字列自体に&はNG。
+                    //シンプルに p = flowers[1];だけで"TULIP"の先頭ｱﾄﾞﾚｽが代入される。と考える。
   printf("%s\n", p );    //よってTULIPと表示
   p += 2;                //ﾎﾟｲﾝﾀ自身に2ｱﾄﾞﾚｽ分進める。char*型なので配列の配列とか知ったことなく２バイトだけ進める'T','U','L'よってLIP
   printf("%s\n", p );
@@ -65,11 +70,33 @@ int main(void)
                        //pp == &flowers[2],
                       //&pp= &flowers[2]自体の場所
   printf("%s\n", *pp );　//間接参照した先は、PANSYのアドレス情報flowers[2]なのでPANSYと表示
-  printf("%s\n", (pp + 1) );  //ppはchar**型なので、&flowers[2+1]と考えて良い。よってLILY
-  printf("%s\n", **pp );    //**ppの先は、printf()ではコピーに計算しただけなので、変数ppの変更はない。よって参照先'P'が%sで表示
+  printf("%s\n", *(pp + 1) );  //ppはchar**型なので、&flowers[2+1]と考えて良い。よってLILY。
+                              //ちなみに（pp + 1）と*を付け忘れると、char型のアドレス情報期待するところにﾎﾟｲﾝﾀのアドレス情報が来てエラー
+  printf("%c\n", **pp );    //**ppの先は、printf()ではコピーに計算しただけなので、変数ppの変更はない。よって参照先'P'が%cで表示
   return 0;
 }
+//1011_p-47-Q6
+#include<stdio.h>
+int main(void)
+{
+  char *color[] = {"YELLOW","RED","BLUE","GREEN","BLACK","WHITE"};
+  char *p;
+  char **pp;
 
+  p = color[4];
+  printf("%s\n", p ); //BLACK
+
+  p++;
+  printf("%s\n", p ); //LACK
+
+  pp = color; //==&color[0]==color[0]
+  printf("%s\n", *pp + 2 ); // *pp=p=color[0] LLOW
+  printf("%s\n", *( pp + 2 )); // BLUE
+
+  pp += 3; //GREEN
+  printf("%c\n", *( *pp + 1 ) ); color[4]+1 R
+  return 0;
+}
 
 
 
