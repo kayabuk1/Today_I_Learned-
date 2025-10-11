@@ -33,6 +33,7 @@ int main(void)
   printf("%s\n",p+3);  //iを指すﾎﾟｲﾝﾀを3要素分進める。ここではﾎﾟｲﾝﾀはminst自体のｱﾄﾞﾚｽ。なのでminst[3][1]でr
                       //この動きはpがminstの様な二次元配列のﾎﾟｲﾝﾀだったらという話で、単なるchar*型のpでは違う
                       //char *p[][]と宣言？定義？されれば良いのかな？
+                      //
 /*ここから誤解ポイント
   「p」はchar*型なので2次元配列の構造(1行が8ﾊﾞｲﾄであること)を知らない。pにとっては単なる「32ﾊﾞｲﾄ」の連続した文字の列に見える
   pは、minst[0][1]=='i'==ｱﾄﾞﾚｽ1001番を指している。そこから3文字(3ﾊﾞｲﾄ)分進んだ場所を指す。
@@ -46,5 +47,45 @@ int main(void)
                       //ので、pはまだ'i'を指していて。それを1進めるので答えは'o'
   return 0; 
 }
+//1011_P-47-Q6
+#include<stdio.h>
+int main(void)
+{
+  char *flowers[] = {"ROSE","TULIP","PANSY","LILY","COSMOS"};
+  char *p, **pp;
 
+  p = flowers[1];
+  printf("%s\n", p );
+  p += 2;
+  printf("%s\n", p );
+
+  pp = &flowers[2];
+  printf("%s\n", *pp );
+  printf("%s\n", (pp + 1) );
+  printf("%s\n", **pp );
+  return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
