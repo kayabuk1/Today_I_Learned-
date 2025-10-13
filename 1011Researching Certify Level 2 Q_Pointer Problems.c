@@ -164,7 +164,42 @@ int main(void)
   return 0;
 }
 
-//
+//1013_P-sampleQ6
+#include<stdio.h>
+int main(void)
+{
+  int data[] = {9,-1,7,6,3,-5,6,2,-4,0};
+  int *ip, *iq;
+  int i, value, flag;
+  ip = data;                //data=&data[0],*ip=9
+  printf("%d\n", *ip + 1);  //*ip=9,9+1=10 10
+  iq =data;                  //iq=&data[0]
+  printf("%d\n", *(ip + 3));    //ip=&data[0+3],*ip=6 6
+  ip=data;                    //ip=&data[0]
+  iq=ip+6;                    //iq=&data[0+6],*iq=6
+  iq--;                       //iq=&data[5],*iq=-5
+  printf("%d\n", *iq);    //-5
+  ip=&data[1];            //*ip=-1
+  iq=&data[6];            //*iq=6
+  value=0;
+  for(i=0;i<3;i++){
+    value += *ip + *iq;   //{(-1)+6}+{7+(-5)}+{6+3}=16 16
+    ip++;
+    iq--;
+  }
+  printf("%d\n", *ip + 1);    //ip=d&data[4],*ip=3,3+1=4 4 
+  flag = 0;
+  for(ip=data; ip!=0&&flag==0; ip++){   //ip=&data[0],*ip=9,     ip=&data[1],...ip=&[3],*ip=6       
+    for(iq=ip+1; *iq!=0; iq++){    iq=&data[1]⇒iq=&data[9],*iq=0
+      if(*ip==*iq){                   iq=&data[4]⇒ip=&data[7]                           *iq=6 break;                        
+        flag = 1;
+        break;
+      }
+    }
+  }
+  printf("%d\n", *iq);    //6
+  return 0;
+}
 
 
 
