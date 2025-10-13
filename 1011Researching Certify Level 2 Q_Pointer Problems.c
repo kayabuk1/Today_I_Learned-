@@ -75,28 +75,67 @@ int main(void)
   printf("%c\n", **pp );    //**ppの先は、printf()ではコピーに計算しただけなので、変数ppの変更はない。よって参照先'P'が%cで表示
   return 0;
 }
-//1011_p-47-Q6
+//1011_p-47-Q6,1013追記
 #include<stdio.h>
 int main(void)
 {
-  char *color[] = {"YELLOW","RED","BLUE","GREEN","BLACK","WHITE"};
-  char *p;
+  char *color[] = {"YELLOW","RED","BLUE","GREEN","BLACK","WHITE"};　char型ﾎﾟｲﾝﾀの配列colorなので格納可能はﾎﾟｲﾝﾀ
+  char *p; 
   char **pp;
 
-  p = color[4];
-  printf("%s\n", p ); //BLACK
+  p = color[4];  //ﾎﾟｲﾝﾀpにcolor[4]を代入。&color[4]が配列4番目入れ物自体のｱﾄﾞﾚｽで、colorと言う配列名だけなら&color[0]
+                  //と言う配列先頭要素'入れ物'自体のｱﾄﾞﾚｽになるが、今回はcolor[4]なのでBLACKの先頭'B'のｱﾄﾞﾚｽが代入。
+  printf("%s\n", p ); //なので、%sでBLACK表示
 
   p++;
-  printf("%s\n", p ); //LACK
+  printf("%s\n", p ); //pはchar*型なので配列構造なんて知ったこったない。ので1文字分進めて、LACK
 
-  pp = color; //==&color[0]
-  printf("%s\n", *pp + 2 ); // *pp=p=color[0] LLOW
-  printf("%s\n", *( pp + 2 )); // BLUE
+  pp = color; //配列名==先頭要素ｱﾄﾞﾚｽ&color[0]。今回は各要素に格納物自体も配列なのは注意。なので先頭入れ物自体のｱﾄﾞﾚｽ
+  printf("%s\n", *pp + 2 ); // ﾎﾟｲﾝﾀのﾎﾟｲﾝﾀ型に間接参照一つしか付けないので、一つﾎﾟｲﾝﾀを辿って*pp=p=color[0]、
+                            //つまり"YELLOW"の先頭要素ｱﾄﾞﾚｽを参照。よって'Y'のｱﾄﾞﾚｽを取ってくる。それを2つ分進めるので
+                            //'L'のｱﾄﾞﾚｽが%sで渡せれて最後まで表示 LLOW
+  printf("%s\n", *( pp + 2 )); // ﾎﾟｲﾝﾀのﾎﾟｲﾝﾀ型として2つ進めた後に、間接参照1つだけ。なのでｱﾄﾞﾚｽcolor[2]を指す。  
+                                //そしてそれは'B'のｱﾄﾞﾚｽなので、BLUE
 
-  pp += 3; //GREEN
-  printf("%c\n", *( *pp + 1 ) ); color[4]+1 R
+  pp += 3; 　//ﾎﾟｲﾝﾀﾎﾟｲﾝﾀ型として自身に３を足して代入する。ここまでprintf()内では足したコピーは使われたが、
+              //変数には代入されていないので&color[0]から３進んで&color[3]を指している状態 
+              //color[3]や"GREEN"ではないので注意。
+  printf("%c\n", *( *pp + 1 ) ); // 間接参照して取ってきた中身char型のｱﾄﾞﾚｽcolor[3]に＋１する。
+                                //つまり"GREEN"の'G'のｱﾄﾞﾚｽに+1をするので'R'のｱﾄﾞﾚｽになる。そして
+                                //それを間接参照するので、'R'のところに行ってRを取って来て%cで表示　R
   return 0;
 }
+
+//1013_P-48Q6
+#include<stdio.h>
+int main(void)
+{
+  char name[][7] = {"Seton","Fabre","Darwin","Mendel"}; //二次元配列name[3][7]4×8bbyteの1列のデータ
+  char *p;
+
+  p = name[1];         //p = name[1][0]と解釈されるよって*p='F'
+  printf("%s\n", p );  //なので、Fabre
+  printf("%s\n", p+2 );  //ただのchar型ﾎﾟｲﾝﾀには二次元配列構造なんて知ったこったない。２文字分進めて%sよって　bre
+
+  printf("%c\n", name[2][3] );　//"Dawin"の三番目の文字""自体""よって　w
+
+  p = &name[3][1];      //二次元配列自体のｱﾄﾞﾚｽを代入。*p = 'e'
+  printf("%s\n", p+1 ); //一次ﾎﾟｲﾝﾀを１文字分進める、p = &name[3][2]で%sなので ndel
+  p--;                  //１文字分マイナス==戻る。
+  printf("%s\n", *p );  //間接参照したのでpに格納ｱﾄﾞﾚｽ、&name[3][0]の中身は"Mendel"の先頭要素ｱﾄﾞﾚｽよって Mendel
+                        //⇒違う。二次元配列なので、ｱﾄﾞﾚｽではなくデータ自体が一列に並んでいる。
+                        //なので&name[3][0]を間接参照したら*&name[3][0]打ち消しあってname[3][0]
+                        //でこれは入っていた要素自体を指すのでｱﾄﾞﾚｽを期待する%sではエラーになる？か
+                        //文字コードMをｱﾄﾞﾚｽ表記で無理やり表示する？あ、%sじゃなくて%cでした。　よって　M
+  return 0;
+}
+
+//
+
+
+
+
+
 
 
 
