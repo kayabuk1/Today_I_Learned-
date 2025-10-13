@@ -130,9 +130,41 @@ int main(void)
   return 0;
 }
 
+//1013_P-51Q6
+#include<stdio.h>
+int main(void)
+{
+  char *Container[5] = {"Stack","List","Array","Queue","Hash"};
+  char *p, **pp;
+  p = Container[3];          //*p = 'Q'
+  printf("%s\n", p);         //Queue
+  printf("%s\n", p + 2);     //char*p + 2 , *p = 'e'(コピー) eue
+  printf("%c\n", Container[1][2]);  //Listの　s
+  pp = Container;            //*pp = &Container[0], **pp ='S'
+  printf("%s\n", *(pp + 2)); //*pp=&container[2](コピー), **pp='A' Array
+  pp++;                      //*pp=&container[1]
+  printf("%c\n", **pp);      //**pp=container[1]='L'
+  return 0;
+}
+
+//1013_P-50Q6
+#include<stdio.h>
+int main(void)
+{
+  char minst[][8] = {"Violin","Cello","Flute","Trumpet"};
+  char *p;
+  p = minst[2];               //*p='F'
+  printf("%s\n", p);          //Flute
+  printf("%s\n", p + 3);      //*p='t' te
+  printf("%c\n", minst[3][1]);  //r
+  p = &minst[0][1];            //V'i'olin*p='i'
+  printf("%s\n", p + 3);        //Viol'i'n*p='i' in
+  p++;                          //V'i'olin⇒Vi'o'lin*p='o'
+  printf("%c\n", *p);           //o
+  return 0;
+}
+
 //
-
-
 
 
 
