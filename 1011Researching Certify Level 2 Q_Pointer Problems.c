@@ -204,14 +204,14 @@ int main(void)
 //1014_P-45Q6
 #include<stdio.h>
 int main(void)
-{
+{                    0        1      2      3      4        5
   char *color[] = {"YELLOW","RED","BLUE","GREEN","BLACK","WHITE"}; //二次元配列と違い、データそのものは別の場所バラバラ
   char *p;
   char **pp;
   p = color[4];            //*p='G'
-  printf("%s\n", p);       //p=color[4],"'G'REEN"  GREEN 
-  p++;                      //pはchar*型1文字進む。"'G'REEN"⇒"G'R'EEN"  REEN
-  printf("%s\n", p);
+  printf("%s\n", p);       //p=color[4],"'B'LACK"  BLACK
+  p++;                      //pはchar*型1文字進む。"'B'LACK"⇒"B'L'ACK"  
+  printf("%s\n", p);        //LACK
   pp = color;                //pp=&color[0],*pp=color[0]
   printf("%s\n", *pp+2);      //*pp=color[0] 間接参照一つで連れてくるのはchar*型情報。よって２文字進めたコピー  LLOW
   printf("%s\n", *(pp+2));    // char**ppとして２つ分進めたコピー。pp=&color[0+2],*pp=color[2] 'B'のアドレス　BLUE
@@ -219,7 +219,21 @@ int main(void)
   printf("%c\n", *(*pp+1));    //*pp=color[3]これはchar*型一文字進める'R'のアドレス、**pp＝'R'をコピーしてきて%c  R
   return 0;
 }
-
+#include<stdio.h>
+int main(void)
+{
+  char name[][7] = {"Seton","Fabre","Darwin","Mendel"};  //二次元配列なので４×８の32bitの横並びのデータ
+  char *p;        //ただﾎﾟｲﾝﾀはchar*型なので、二次元配列構造なんて知ったことではない。
+  p = name[1];           //*p='F'
+  printf("%s\n", p);          //%sはname[1]のｱﾄﾞﾚｽを受け取る  Fabre
+  printf("%s\n", p+2);        //char*型2つ分＝2文字＝2バイト分進めたコピー,*p='b'  bre
+  printf("%c\n", name[2][3]);    //%cなのに注意。name[2][3]は"Dar'w'in"  w
+  p=&name[3][1];                //*p="Mendel"の'e'
+  printf("%s\n", p+1);          //char*型pを1文字分進めたコピー"M'e'ndel"⇒"Me'n'del"で%s  ndel
+  p--;                          //一文字分マイナス  "'M'endel"
+  printf("%c\n", *p);            //*p='M'  M
+  return 0;
+}
 
 
 
