@@ -201,6 +201,24 @@ int main(void)
   return 0;
 }
 
+//1014_P-45Q6
+#include<stdio.h>
+int main(void)
+{
+  char *color[] = {"YELLOW","RED","BLUE","GREEN","BLACK","WHITE"}; //二次元配列と違い、データそのものは別の場所バラバラ
+  char *p;
+  char **pp;
+  p = color[4];            //*p='G'
+  printf("%s\n", p);       //p=color[4],"'G'REEN"  GREEN 
+  p++;                      //pはchar*型1文字進む。"'G'REEN"⇒"G'R'EEN"  REEN
+  printf("%s\n", p);
+  pp = color;                //pp=&color[0],*pp=color[0]
+  printf("%s\n", *pp+2);      //*pp=color[0] 間接参照一つで連れてくるのはchar*型情報。よって２文字進めたコピー  LLOW
+  printf("%s\n", *(pp+2));    // char**ppとして２つ分進めたコピー。pp=&color[0+2],*pp=color[2] 'B'のアドレス　BLUE
+  pp +=3;                     //pp=&color[0+3],*pp=color[3],'G'
+  printf("%c\n", *(*pp+1));    //*pp=color[3]これはchar*型一文字進める'R'のアドレス、**pp＝'R'をコピーしてきて%c  R
+  return 0;
+}
 
 
 
