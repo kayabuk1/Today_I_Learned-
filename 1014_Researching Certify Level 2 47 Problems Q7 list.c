@@ -1,3 +1,4 @@
+//1014_P-47Q7_list
 #include<string.h>
 #define MAX_USER  10
 #define EMPTY     (-1)
@@ -8,7 +9,7 @@ struct USER{        構造体USER型の定義
   int age;
   struct USER *next  //構造体USER型ﾎﾟｲﾝﾀ *next　の宣言。リスト構造的に次のデータの場所(ｱﾄﾞﾚｽ)が入る。
 };
-struct USER buffer[MAX_USER];
+struct USER buffer[MAX_USER];  //構造体
 struct USER *top;
 void Initialize(void){
   int i;
