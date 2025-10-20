@@ -13,7 +13,7 @@ select
   su from meisai4 m4 
 where (select name from syouhin4 s4 where s4.sno = m4.sno) = 'A菓子'
 ; 
--- ⑵最新の船橋商会の売上日の販売実績
+-- ⑵最新の売上日の販売実績
 -- 得意先、販売番号、売上日、商品名、単価、売上額（販売番号、商品番号の昇順で表示）を表示せよ。
 select
   (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno))as 得意先名,
@@ -24,11 +24,8 @@ select
   m4.su * (select tanka from syouhin4 s4 where s4.sno = m4.sno)as 売上額
 from meisai4 m4
 where
-  (select name from tokuisaki4 t4 where t4.tno = (select tno from hanbai4 h4 where h4.hno = m4.hno )) 
-  = '船橋商会'
-AND (select day from hanbai4 h4 where h4.hno = m4.hno)
-  = (select max(day) from hanbai4 h4 where h4.tno IN
-       (select tno from tokuisaki4 where name = '船橋商会'))
+   (select day from hanbai4 h4 where h4.hno = m4.hno)
+  = (select max(day) from hanbai4 h4 where h4.tno)
 order by 販売番号, m4.sno ASC; 
 
 -- ⑶１回も売れていない商品名
