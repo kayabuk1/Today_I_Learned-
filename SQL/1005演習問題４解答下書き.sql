@@ -140,6 +140,11 @@ select name from syouhin4 where sno NOT IN
 別解：COUNT関数を使う。countなら数値を返すので０と比較演算子＝で結ぶことが出来る。
 select name from syouhin4 
     where (select count(*) from meisai4 where meisai4.sno = syouhin.sno) = 0;
+※⑶の左外部結合を使った別解
+select s4.name as 商品名
+from syouhin4 s4 left outer join meisai4 m4
+on s4.sno = m4.sno
+where m4.sno is NULL;
 
 -- ⑷商品の単価が高い順に3個表示する。商品名、単価、順位を表示すること。
 -- 自力チャレンジ
