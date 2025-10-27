@@ -156,10 +156,13 @@ where m4.sno is NULL;
 商品名　syouhin4.name as '商品名'
 単価    syouhin4.tanka as '単価'
 順位    order by syouhin4.tanka desc実行後にrownumを振る必要がある。
-        そしてrownumは仮の列なので、正規の列として扱う為に、外側のサブクエリで内側サブクエリrownumを扱う必要がある。
-select syouhin4.name as '商品名, 't2.t1.syouhin4.tanka as'単価', t2.s42_rownum as '順位' from
+        そしてrownumは仮の列なので、正規の列として扱う為に、
+    外側のサブクエリで内側サブクエリrownumを扱う必要がある。
+select syouhin4.name as '商品名, 't2.t1.syouhin4.tanka as'単価', 
+        t2.s42_rownum as '順位' from
     (select t1.syouhin4.tanka t1.s41_rownum, rownum s42_rownum from
-    （select syouhin4.tanka, rownum s41_rownum　from syouhin4 order by syouhin4.tanka desc)as t1)as t2)
+    （select syouhin4.tanka, rownum s41_rownum　from syouhin4
+        order by syouhin4.tanka desc)as t1)as t2)
 where t2.s42_rownum >= 3 order by t2.s42_rownum desc;→✖考え方は〇
 解答
 １．基礎となる一番内側で商品を単価順に並べる。
@@ -173,6 +176,9 @@ select t2.name, t2.tanak, t2."順位" from
         (select name, tanka, from syouhin4 order by tanka DESC
     ) t1) t2
 where　t2."順位" <= 3;
+別解
+select name,tanka,rownum
+    from(select name, tanka, from syouhin4 order by tanka DESC)where rownum <= 3;
 
 別解：ウインドウ関数を使う場合
 SELECT name, tanka,"順位"
@@ -240,6 +246,26 @@ AND (select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))
       where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno = t4.tno))
   >(select sum(m4.su *(select s4.tanka from syouhin4 s4 where s4.sno = m4.sno))from meisai4 m4 
       where m4.hno IN (select h4.hno from hanbai4 h4 where h4.tno =(select tno from tokuisaki4 where name = '鎌ヶ谷商会')))
+;
+※内部結合を使った別解
+select t4.tno as 得意先番号, t4.name as 得意先名, sum(s4.tanka * m4.su)as 売上合計額
+from tokuisaki4 t4
+inner join hanbai4 h4 on t4.tno = h4.tno
+inner join meisai4 m4 on h4.hno = m4.hno
+inner join syouhin4 s4 on m4.sno = s4.sno
+group by t4.tno, t4.name
+having 売上合計額　< (select sum(s4.tanka * m4.su)as 売上合計額
+from tokuisaki4 t4
+inner join hanbai4 h4 on t4.tno = h4.tno
+inner join meisai4 m4 on h4.hno = m4.hno
+inner join syouhin4 s4 on m4.sno = s4.sno
+where t4.name ='船橋商会')
+    and 売上合計額　> (select sum(s4.tanka * m4.su)as 売上合計額
+from tokuisaki4 t4
+inner join hanbai4 h4 on t4.tno = h4.tno
+inner join meisai4 m4 on h4.hno = m4.hno
+inner join syouhin4 s4 on m4.sno = s4.sno
+where t4.name ='鎌ヶ谷商会')
 ;
     
 -- 0930ここから
