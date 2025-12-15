@@ -8,3 +8,5 @@ CdSは反応性の問題から、廃止。
 ブレーキ回路を復活させ、センサー部に黒マニキュアで遮光するなどの措置を追加。
 https://tinyurl.com/22tc2qaz
 ↑falstad.comの作成回路の短縮リンク
+https://drive.google.com/file/d/1PoD4iLnwC50FipKnk3lIsyK8fCd61m8f/view?usp=drive_link
+←Ｓ字クランクをゆっくり曲がる様子
