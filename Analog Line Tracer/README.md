@@ -6,3 +6,5 @@ https://www.falstad.com/circuit/
 上手く修正などをまとめられていなかった為、こちらに記述していくことにする。
 CdSは反応性の問題から、廃止。
 ブレーキ回路を復活させ、センサー部に黒マニキュアで遮光するなどの措置を追加。
+https://tinyurl.com/22tc2qaz
+↑falstad.comの作成回路の短縮リンク
