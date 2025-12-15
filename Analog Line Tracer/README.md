@@ -11,7 +11,7 @@
 
 * [作製回路のシミュレータ(Falstad)上での表示短縮リンク(https://tinyurl.com/22tc2qaz) 
 * [S字クランクをゆっくり曲がる様子 (Google Drive)]
-* (hthttps://drive.google.com/file/d/1PoD4iLnwC50FipKnk3lIsyK8fCd61m8f/view?usp=drive_link)
+* (https://drive.google.com/file/d/1PoD4iLnwC50FipKnk3lIsyK8fCd61m8f/view?usp=drive_link)
 
 ## 12/15時点の改修の内容まとめ
 1. 改修の背景：慣性によるオーバーランの抑制
