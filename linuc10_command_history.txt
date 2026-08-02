@@ -1,0 +1,111 @@
+    1  w
+    2  ls -a
+    3  ls .ssh
+    4  ls .ssh/
+    5  ls ~/.ssh/
+    6  ls ~/.ssh/ 
+    7  ls ~/.ssh/known_hosts
+    8  cd ./
+    9  ls -a
+   10  ls -la
+   11  cd ./ssh
+   12  cd ~/./ssh
+   13  cd ~/.ssh
+   14  ssh -l linuc10 127.0.0.1
+   15  lsd
+   16  ls -ld
+   17  ls -la
+   18  ls ~/.ssh
+   19  w
+   20  ls ~/.ssh/known_hosts
+   21  cat ~/.ssh/known_hosts
+   22  sleep -h
+   23  sleep --help
+   24  sleep 300
+   25  sleep 300 bg
+   26  sleep 300 &
+   27  bg
+   28  bg sleep 300 
+   29  sleep 300 bg
+   30  sleep 300 -bg
+   31  sleep 300
+   32  jobs
+   33  fg
+   34  jobs
+   35  fg
+   36  jobs
+   37  sleep 300
+   38  jobs
+   39  fg %1
+   40  jobs --help
+   41  w
+   42  jobs
+   43  sleep 300
+   44  sleep 300 &
+   45  jobs
+   46  jobs --help
+   47  jobs -lnprs
+   48  jobs -lnpr
+   49  jobs -lnp
+   50  jobs -lnps
+   51  n
+   52  jobs -lnrs
+   53  jobs -lrs
+   54  jobs -lps
+   55  jobs -lrs
+   56  jobs -l
+   57  kill 2766
+   58  jobs
+   59  kill 2767
+   60  jobs
+   61  killall sleep 300
+   62  jobs
+   63  sleep 300 &
+   64  ps
+   65  top
+   66  kill %1 %2 %3
+   67  jobs
+   68  echo $%1
+   69  echo $%
+   70  echo $%jobs
+   71  jobs
+   72  sleep 300
+   73  echo %1
+   74  echo $1
+   75  echo $%1
+   76  echo $jobs
+   77  jobs -lsr
+   78  jobs -l
+   79  kill -9 %1
+   80  jobs
+   81  docker --help
+   82  apt search docker
+   83  find docker
+   84  find /docker
+   85  find */docker
+   86  find *docker
+   87  find "docker"
+   88  apt-file search docker
+   89  locate docker
+   90  atp-cache search docker
+   91  atp-cache docker
+   92  apt-cache docker
+   93  apt-cache search docker
+   94  apt list --installed
+   95  sudo updatedb
+   96  sudo apt-get update
+   97  locate suders
+   98  locate sudoers
+   99  cat /etc/
+  100  cat /etc/sudo
+  101  cat /etc/sudoers
+  102  su -
+  103  su --help
+  104  su - cat /etc/sudoers
+  105  su - kayabuk1 cat /etc/sudoers
+  106  su cat /etc/sudoers
+  107  su
+  108  su 
+  109  su - root
+  110  su - kayabuk1
+  111  history
