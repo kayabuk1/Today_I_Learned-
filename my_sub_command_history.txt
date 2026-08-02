@@ -11,7 +11,7 @@
    11  cd ./ssh
    12  cd ~/./ssh
    13  cd ~/.ssh
-   14  ssh -l linuc10 127.0.0.1
+   14  ssh -l 127.0.0.1
    15  lsd
    16  ls -ld
    17  ls -la
