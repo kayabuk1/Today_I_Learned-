@@ -1,0 +1,217 @@
+    1  ip a
+    2  sudo apt-get update
+    3  sudo apt-get -y update
+    4  sudo apt-get -y upgrade
+    5  sudo rpi-update
+    6  y
+    7  sudo rpi-update -y
+    8  sudo rpi-update
+    9  sudo reboot
+   10  sudo apt-get install fcitx-mozc
+   11  im-config -n fcitx5
+   12  apt list openssh
+   13  apt-file search openssh
+   14  sudo apt-file search openssh
+   15  dpkg -s
+   16  dpkg -s opennssh
+   17  dpkg -s opennssh-server
+   18  dpkg -s opennssh-qlient
+   19  dpkg -l openssh
+   20  dpkg -l openssh*
+   21  sudo raspi-config
+   22  history 
+   23  sudo systemctl isolate poweroff.target 
+   24  w
+   25  ls ~/.ssh
+   26  ssh-keygen -t ed25519
+   27  ls ~/.ssh
+   28  ls -ld ~./ssh
+   29  ls -ld ~/.ssh
+   30  ls -l ~/.ssh
+   31  less ~/.ssh/id_ed25519
+   32  less ~/.ssh/id_ed25519.pub
+   33  less ~/.ssh/id_ed25519
+   34  ls ~/.ssh
+   37  w
+   38  ls ~/.ssh
+   39  cat ~/.ssh/known_hosts 
+   40  cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
+   41  chmod 600 ~/.ssh/authorized_keys
+   42  ls -ld ~/.ssh
+   43  ls -ld ~/.ssh/
+   44  ls -ld ~/.ssh/authorized_keys 
+   45  sudo poweroff 
+   46  history
+   47  sudo raspi-config
+   48  sudo nmtui
+   49  cat /etc/resolv.conf 
+   50  nmcli device show wlan0
+   51  history 
+   52  nmcli device show wlan0 
+   53  history 
+   54  cat /etc/resolv.conf 
+   55  ip a
+   56  sudo nmcli connection modify \ ipv4.method manual ipv4.addresses \ ipv4.gateway \ ipv4.dns 
+   58  history
+   59  nmcli device show
+   60  nmcli device status 
+   61  nmcli device wifi list
+   62  nmcli monitor 
+   63  nmcli connection 
+   64  nmcli connection show 
+   65  nmcli device wifi list
+   66  sudo poweroff 
+   67  rpi-config signin
+   68  rpi-connect signin
+   69  sudo apt install rpi-connect
+   70  rpi-connect run
+   71  rpi-connect signin
+   72  rpi-connect on
+   73  rpi-connect signin
+   74  pstree
+   75  tree --charset=C
+   76  sudo apt install tree
+   77  tree --charset=C
+   78  hostname
+   79  hostname -h
+   80  hostname -I
+   81  hostname -i
+   82  sudo arping -I wlan0
+   83  sudo arping
+   84  arping -f
+   85  arping -D
+   86  tree -L /etc --charset==C
+   87  tree -L 2 /etc --charset==C
+   88  sudo nmap -O
+   89  arp -a
+   90  nmap .host
+   91  nmap -sn 192.168.252.0/24
+   92  netstat
+   93  net-list
+   94  apt install net-list
+   95  sudo apt install net-list
+   96  arp -a
+   97  nmap -sT
+   98  netstat -tunlp
+   99  sudo netstat -tunlp
+  100  ss
+  101  ss -tunlp
+  102  sudo ss -tunlp
+  103  ip a
+  104  netstat
+
+  125  traceroute -h
+  126  traceroute --help
+  127  sudo nmap -h
+  128  traceroute 8.8.8.8
+  129  traceroute -T 8.8.8.8
+  130  sudo traceroute -T 8.8.8.8
+  131  sudo traceroute -T -p 443 8.8.8.8
+  132  sudo traceroute -T -p 53 8.8.8.8
+  133  nmcli networking 
+  134  nmcli connection 
+  135  nmcli general 
+  136  nmcli agent 
+  137  nmcli device 
+  138  nc -z 8.8.8.8
+  139  nc -z 8.8.8.8 1-100
+  140  nc -zv -1 8.8.8.8 1-100
+  141  nc -zv -w 1 8.8.8.8 1-100
+  142  ip route
+  143  rpi-connect on
+  144  w
+  145  fish
+  146  whoami
+  147  hostname
+  148  localhost
+  149  ls /etc/ssh*
+  150  find authorized_keys
+  151  less /etc/sshd_config
+  152  less /etc/ssh/sshd_config
+  153  cat /etc/ssh/sshd_config
+  154  locate authorized_keys
+  155  sudo apt install locate
+  156  sudo updatedb
+  157  locate authorized_keys
+  158  find -name authorized_keys
+  159  sudo poweroff
+  160  rpi-connect on
+  161  w
+  162  ssh -l kayabuk1 ::1
+  163  rpi-connect on
+  164  w
+  165  pwd
+  166  ls
+  167  ls -la
+  168  uname
+  169  uname -r
+  170  systtemctl
+  171  systemctl
+  172  systemctl status
+  173  top
+  174  ps
+  175  ps -h
+  176  pstree
+  177  kill 
+  178  killall
+  179  echo $0
+  180  echo $1
+  181  echo $2
+  182  echo $#
+  183  echo $n
+  184  echo $$
+  185  echo $&
+  186  echo $DIPLAY
+  187  top
+  188  ps 
+  189  ps -a
+  190  ps -all
+  191  ps -h
+  192  pstree
+  193  docker
+  194  uname -r
+  195  uname -rmn
+  196  uname
+  197  uname -a
+  198  echo$PATH
+  199  echo $PATH
+  200  echo $path
+  201  kill 
+  202  echo $DISPLAYS
+  203  echo $DISPLAY
+  204  shutdown -h
+  205  -c
+  206  shutdown -c
+  207  kill -h
+  208  kill -help
+  209  kill --help
+  210  kill 1916
+  211  kill 1915
+  212  ps
+  213  pid 
+  214  ps --help
+  215  ps all
+  216  killall
+  217  target
+  218  target-server
+  219  uname 
+  220  useradd
+  221  useradd linuc10
+  222  useradd -m linuc10
+  223  sudo useradd -m linuc10
+  224  ls -l  /etc/shadow
+  225  ls -l  /etc/passwd
+  226  ls -la  /etc/shadow
+  227  cat  /etc/passwd
+  228  cat  /etc/shadow
+  229  sudo cat  /etc/shadow
+  230  sudo passwd linu10
+  231  sudo passwd linuc10
+  232  hostname
+  233  w
+  234  ssh @::1
+  235  history
+  236  ssh @localhost
+  237  history
+  238  ssh -l linuc10 localhost
+  239  history
