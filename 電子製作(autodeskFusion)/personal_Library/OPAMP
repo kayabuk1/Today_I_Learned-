@@ -1,0 +1,21 @@
+Directory
+
+Exported from OPAMP.lbr at 2026/08/24 13:38
+
+EAGLE Version 9.7.0 Copyright (c) 1988-2026 Autodesk, Inc.
+
+Device     Prefix  Value Package  Contents
+
+OPAMPDIP8  IC      off   DIP8     2*OPAMP    1*PPINS   
+OPAMPSOP8  IC      off   SOP8     2*OPAMP    1*PPINS   
+
+Packages:
+
+DIP8
+SOP8
+
+Symbols:
+
+OPAMP
+PPINS
+
