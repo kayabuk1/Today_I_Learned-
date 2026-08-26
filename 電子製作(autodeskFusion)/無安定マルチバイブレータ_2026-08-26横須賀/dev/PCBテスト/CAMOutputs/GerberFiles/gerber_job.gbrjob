@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2026-08-26T04:50:54Z",
+        "GenerationSoftware": {
+            "Application": "Fusion Electronics",
+            "Vendor": "Autodesk",
+            "Version": "9.7.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.6608,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "無安定マルチバイブレータ"
+        },
+        "Owner": "昌敏 横須賀 <2025i10@funagi.ac.jp>",
+        "Size": {
+            "X": 21.823078,
+            "Y": 30.402825
+        }
+    }
+}
